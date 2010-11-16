@@ -4,43 +4,45 @@
 import mc
 import os
 
-def startTelnet():
-	os.system("/etc/init.d/telnetd start")
-	f = open(mc.GetTempDir() + "/unboxed_telnetd", "w")
-	f.write("1")
-	f.close()
-	mc.ShowDialogNotification("Telnet Started")
+tweaks = list()
 
-def stopTelnet():
-	os.system("/bin/kill `ps ax | grep -v grep | grep telnetd | awk '{print $1}'`")
-	f = open(mc.GetTempDir() + "/unboxed_telnetd", "w")
-	f.write("0")
-	f.close()
-	mc.ShowDialogNotification("Telnet Stopped")
+# Tweak superclass
+class Tweak:
+	label = "Tweak Name";
+	description = "This is a description of the tweak. Can be multiline."
+	def onclick(self):
+		return
 
-def checkTelnet():
-	statusFile = mc.GetTempDir() + "unboxed_telnetd"                               
-	if os.path.isfile(statusFile) == False:                                        
-		f = open(statusFile, "w")                                              
-		f.write("0")                                                           
-		f.close()                                                              
+# Let's define some tweaks
+class TelnetTweak(Tweak):
+	label = "Enable Telnet"
+	description = "Some info about telnet."
+	def onclick(self):
+		return
+tweaks.append(TelnetTweak())
 
-	f = open(statusFile, "r")                                                      
-	status = f.readline()                                                          
-	f.close()                                         
+class LEDTweak(Tweak):
+	label = "Change LED Color"
+	description = "Some info about color changing."
+	def onclick(self):
+		mc.ShowDialogNotification('LED color would change now.')
+		return
+tweaks.append(LEDTweak())
 
-	tb = mc.GetWindow(14000).GetToggleButton(101)   
+# Build our list
+items = mc.ListItems()
+for tweak in tweaks:
+	item = mc.ListItem( mc.ListItem.MEDIA_UNKNOWN )
+	item.SetLabel(tweak.label)
+	item.SetDescription(tweak.description)
+	items.append(item)
+mc.GetActiveWindow().GetList(101).SetItems(items)
 
-	if not status or status == "0":                 
-		tb.SetSelected(False)                   
-	elif status == "1":                             
-		tb.SetSelected(True)
-
-checkTelnet()
 ]]></onload>
 	<defaultcontrol always="true">101</defaultcontrol>
 	<allowoverlay>yes</allowoverlay>
 	<controls>
+		<!-- Background image -->
 		<control type="image" id="100">
 			<posx>0</posx>
 			<posy>0</posy>
@@ -49,7 +51,107 @@ checkTelnet()
 			<texture>bg.png</texture>
 		</control>
 
-		<control type="togglebutton" id="101">
+		<!-- Left column List -->
+		<control type="list" id="101">
+			<description>My first list container</description>
+			<posx>66</posx>
+			<posy>155</posy>
+			<width>342</width>
+			<height>512</height>
+			<visible>true</visible>
+			<onup>2</onup>
+			<ondown>3</ondown>
+			<onleft>1</onleft>
+			<onright>1</onright>
+			<viewtype label="3D list">list</viewtype>
+			<orientation>vertical</orientation>
+			<pagecontrol>25</pagecontrol>
+			<scrolltime>200</scrolltime>
+			<itemlayout width="342" height="52">
+				<control type="label">
+					<posx>30</posx>
+					<posy>15</posy>
+					<width>282</width>
+					<height>25</height>
+					<font>font22</font>
+					<aligny>center</aligny>
+					<textcolor>grey</textcolor>
+					<align>left</align>
+					<info>ListItem.Label</info>
+				</control>
+			</itemlayout>
+			<focusedlayout width="342" height="52">
+				<control type="image">
+					<width>342</width>
+					<height>52</height>
+					<posx>0</posx>
+					<posy>0</posy>
+					<align>left</align>
+					<aligny>top</aligny>
+					<border>15</border>
+					<visible>true</visible>
+					<texture>list-focus.png</texture>
+				</control>
+				<control type="label">
+					<posx>30</posx>
+					<posy>15</posy>
+					<width>282</width>
+					<height>25</height>
+					<font>font22</font>
+					<aligny>center</aligny>
+					<textcolor>white</textcolor>
+					<align>left</align>
+					<info>ListItem.Label</info>
+				</control>
+			</focusedlayout>
+			<content type="action">
+				<onclick lang="python"><![CDATA[tweaks[mc.GetActiveWindow().GetList(101).GetFocusedItem()].onclick()]]></onclick>
+			</content>
+		</control>
+
+		<!-- Center column text -->
+		<control type="label" id="102">
+			<description>Metadata</description>
+			<posx>460</posx>
+			<posy>170</posy>
+			<width>312</width>
+			<height>475</height>
+			<align>left</align>
+			<aligny>top</aligny>
+			<scroll>false</scroll>
+			<label>$INFO[Container(101).ListItem.property(description)]</label>
+			<number></number>
+			<haspath>false</haspath>
+			<font>font24</font>
+			<textcolor>white</textcolor>
+			<shadowcolor>black</shadowcolor>
+			<wrapmultiline>true</wrapmultiline>
+		</control>
+
+		<!-- Right column text -->
+		<control type="label" id="103">
+			<description>Sys Info</description>
+			<posx>840</posx>
+			<posy>170</posy>
+			<width>360</width>
+			<height>475</height>
+			<align>left</align>
+			<aligny>top</aligny>
+			<scroll>false</scroll>
+			<label>Boxee Version: 
+IP Address: 
+Uname: 
+Disk Utilization: 
+Load: </label>
+			<number></number>
+			<haspath>false</haspath>
+			<font>font24</font>
+			<textcolor>grey</textcolor>
+			<shadowcolor>black</shadowcolor>
+			<wrapmultiline>true</wrapmultiline>
+		</control>
+
+		<!--control type="togglebutton" id="101">
 		   <posx>100</posx>
 		   <posy>175</posy>
 		   <width>120</width>
@@ -67,6 +169,6 @@ startTelnet()
 <altclick lang="python"><![CDATA[
 stopTelnet()
 ]]></altclick>
-		</control>
+		</control-->
 	</controls>
 </window>
