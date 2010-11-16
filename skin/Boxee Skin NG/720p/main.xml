@@ -41,27 +41,17 @@ checkTelnet()
 	<defaultcontrol always="true">101</defaultcontrol>
 	<allowoverlay>yes</allowoverlay>
 	<controls>
-		<control type="label" id="100">
-		   <description>name</description>
-		   <posx>530</posx>
-		   <posy>300</posy>
-		   <width>250</width>
-		   <height>40</height>
-		   <align>left</align>
-		   <aligny>center</aligny>
-		   <scroll>false</scroll>
-		   <label>UnBoxed</label>
-		   <number></number>
-		   <haspath>false</haspath>
-		   <font>font48</font>
-		   <textcolor>white</textcolor>
-		   <shadowcolor>grey</shadowcolor>
-		   <wrapmultiline>false</wrapmultiline>
+		<control type="image" id="100">
+			<posx>0</posx>
+			<posy>0</posy>
+			<width>1280</width>
+			<height>720</height>
+			<texture>bg.png</texture>
 		</control>
-		
+
 		<control type="togglebutton" id="101">
-		   <posx>570</posx>
-		   <posy>355</posy>
+		   <posx>100</posx>
+		   <posy>175</posy>
 		   <width>120</width>
 		   <height>40</height>
 		   <label>Start Telnet</label>
