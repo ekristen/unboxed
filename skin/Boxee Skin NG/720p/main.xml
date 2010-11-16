@@ -25,16 +25,16 @@ def checkTelnet():
 		f.write("0")                                                           
 		f.close()                                                              
 
-		f = open(statusFile, "r")                                                      
-		status = f.readline()                                                          
-		f.close()                                         
+	f = open(statusFile, "r")                                                      
+	status = f.readline()                                                          
+	f.close()                                         
 
-		tb = mc.GetWindow(14000).GetToggleButton(101)   
+	tb = mc.GetWindow(14000).GetToggleButton(101)   
 
-		if not status or status == "0":                 
-			tb.SetSelected(False)                   
-		elif status == "1":                             
-			tb.SetSelected(True)
+	if not status or status == "0":                 
+		tb.SetSelected(False)                   
+	elif status == "1":                             
+		tb.SetSelected(True)
 
 checkTelnet()
 ]]></onload>
