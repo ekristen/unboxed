@@ -1,0 +1,15 @@
+<app>
+  <id>com.erikkristensen.unboxed</id>
+  <name>UnBoxed</name>
+  <version>0.1</version>
+  <description>A set of tools to enable easier development and full access to the Boxee Box</description>
+  <thumb>http://erikkristensen.com/boxee/unboxed_logo.jpg</thumb>
+  <repository>http://erikkristensen.com/boxee/</repository>
+  <media>video</media>
+  <type>skin</type>
+  <author>Erik Kristensen</author>
+  <email>erik@erikkristensen.com</email>
+  <startWindow>14000</startWindow>
+  <minversion>0.9.23</minversion>
+  <platform>all</platform>
+</app>

@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+<window type="window" id="14000">
+<onload lang="python"><![CDATA[
+import mc
+import os
+
+def startTelnet():
+	os.system("/etc/init.d/telnetd start")
+	f = open(mc.GetTempDir() + "/unboxed_telnetd", "w")
+	f.write("1")
+	f.close()
+	mc.ShowDialogNotification("Telnet Started")
+
+def stopTelnet():
+	os.system("/bin/kill `ps ax | grep -v grep | grep telnetd | awk '{print $1}'`")
+	f = open(mc.GetTempDir() + "/unboxed_telnetd", "w")
+	f.write("0")
+	f.close()
+	mc.ShowDialogNotification("Telnet Stopped")
+
+def checkTelnet():
+	statusFile = mc.GetTempDir() + "unboxed_telnetd"                               
+	if os.path.isfile(statusFile) == False:                                        
+		f = open(statusFile, "w")                                              
+		f.write("0")                                                           
+		f.close()                                                              
+
+		f = open(statusFile, "r")                                                      
+		status = f.readline()                                                          
+		f.close()                                         
+
+		tb = mc.GetWindow(14000).GetToggleButton(101)   
+
+		if not status or status == "0":                 
+			tb.SetSelected(False)                   
+		elif status == "1":                             
+			tb.SetSelected(True)
+
+checkTelnet()
+]]></onload>
+	<defaultcontrol always="true">101</defaultcontrol>
+	<allowoverlay>yes</allowoverlay>
+	<controls>
+		<control type="label" id="100">
+		   <description>name</description>
+		   <posx>530</posx>
+		   <posy>300</posy>
+		   <width>250</width>
+		   <height>40</height>
+		   <align>left</align>
+		   <aligny>center</aligny>
+		   <scroll>false</scroll>
+		   <label>UnBoxed</label>
+		   <number></number>
+		   <haspath>false</haspath>
+		   <font>font48</font>
+		   <textcolor>white</textcolor>
+		   <shadowcolor>grey</shadowcolor>
+		   <wrapmultiline>false</wrapmultiline>
+		</control>
+		
+		<control type="togglebutton" id="101">
+		   <posx>570</posx>
+		   <posy>355</posy>
+		   <width>120</width>
+		   <height>40</height>
+		   <label>Start Telnet</label>
+		   <altlabel>Stop Telnet</altlabel>
+		   <font>light32b</font>
+		   <align>center</align>
+		   <textcolor>grey</textcolor>
+		   <focusedcolor>white</focusedcolor>
+		   <texturenofocus>-</texturenofocus>
+		   <onclick lang="python"><![CDATA[ 
+startTelnet()
+]]></onclick>
+<altclick lang="python"><![CDATA[
+stopTelnet()
+]]></altclick>
+		</control>
+	</controls>
+</window>
