@@ -558,6 +558,20 @@
        id="radialGradient4472-0"
        xlink:href="#linearGradient3290-7"
        inkscape:collect="always" />
+    <inkscape:perspective
+       id="perspective3021"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <inkscape:perspective
+       id="perspective3815"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
   </defs>
   <sodipodi:namedview
      id="base"
@@ -566,9 +580,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.5"
-     inkscape:cx="678.4753"
-     inkscape:cy="256.14861"
+     inkscape:zoom="0.35355339"
+     inkscape:cx="347.42672"
+     inkscape:cy="344.17801"
      inkscape:document-units="px"
      inkscape:current-layer="layer3"
      showgrid="false"
@@ -1094,7 +1108,7 @@
            x="455.37677"
            y="165.62828"
            style="font-size:30" /></flowRegion><flowPara
-         id="flowPara4092"></flowPara></flowRoot>    <rect
+         id="flowPara4092" /></flowRoot>    <rect
        ry="15"
        rx="15"
        style="fill:#000000;fill-opacity:0.15425535;stroke:#ff8080;stroke-width:0;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;display:inline"
@@ -1172,6 +1186,18 @@
          x="87.681236"
          y="192.09772"
          style="font-size:30px;fill:#ffffff">Enable Telnet</tspan></text>
+    <rect
+       y="170"
+       x="-458"
+       height="50"
+       width="340"
+       id="rect3131-9-7"
+       style="fill:#262626;fill-opacity:1;stroke:#00ffff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;display:inline"
+       rx="15"
+       ry="15"
+       inkscape:export-filename="/home/stephen/Dropbox/Code/unboxed/skin/Boxee Skin NG/media/list_focus.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
     <text
        xml:space="preserve"
        style="font-size:4px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#cccccc;fill-opacity:1;stroke:none;display:inline;font-family:Trebuchet MS;-inkscape-font-specification:Trebuchet MS"

@@ -79,7 +79,7 @@ for tweak in tweaks:
 					<aligny>top</aligny>
 					<border>15</border>
 					<visible>true</visible>
-					<texture>list-focus.png</texture>
+					<texture>list_focus.png</texture>
 				</control>
 				<control type="label">
 					<posx>30</posx>
