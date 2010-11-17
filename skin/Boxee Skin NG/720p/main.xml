@@ -3,31 +3,16 @@
 <onload lang="python"><![CDATA[
 import mc
 import os
+import re
+import unboxed
 
+# Build our list of tweaks
 tweaks = list()
-
-# Tweak superclass
-class Tweak:
-	label = "Tweak Name";
-	description = "This is a description of the tweak. Can be multiline."
-	def onclick(self):
-		return
-
-# Let's define some tweaks
-class TelnetTweak(Tweak):
-	label = "Enable Telnet"
-	description = "Some info about telnet."
-	def onclick(self):
-		return
-tweaks.append(TelnetTweak())
-
-class LEDTweak(Tweak):
-	label = "Change LED Color"
-	description = "Some info about color changing."
-	def onclick(self):
-		mc.ShowDialogNotification('LED color would change now.')
-		return
-tweaks.append(LEDTweak())
+for entry in unboxed.__dict__['__all__']:
+	if re.match("[a-zA-Z]+Tweak", entry):
+		# onload call back for modules
+		unboxed.__dict__[unboxed.__dict__[entry].name].onload()
+		tweaks.append(unboxed.__dict__[entry])
 
 # Build our list
 items = mc.ListItems()
@@ -39,6 +24,10 @@ for tweak in tweaks:
 mc.GetActiveWindow().GetList(101).SetItems(items)
 
 ]]></onload>
+<onunload lang="python"><![CDATA[
+for tweak in tweaks:
+	unboxed.__dict__[tweak.name].onunload()
+]]></onunload>
 	<defaultcontrol always="true">101</defaultcontrol>
 	<allowoverlay>yes</allowoverlay>
 	<controls>
@@ -105,7 +94,7 @@ mc.GetActiveWindow().GetList(101).SetItems(items)
 				</control>
 			</focusedlayout>
 			<content type="action">
-				<onclick lang="python"><![CDATA[tweaks[mc.GetActiveWindow().GetList(101).GetFocusedItem()].onclick()]]></onclick>
+				<onclick lang="python"><![CDATA[unboxed.__dict__[tweaks[mc.GetActiveWindow().GetList(101).GetFocusedItem()].name].onclick()]]></onclick>
 			</content>
 		</control>
 
@@ -151,24 +140,5 @@ Load: </label>
 			<wrapmultiline>true</wrapmultiline>
 		</control>
 
-		<!--control type="togglebutton" id="101">
-		   <posx>100</posx>
-		   <posy>175</posy>
-		   <width>120</width>
-		   <height>40</height>
-		   <label>Start Telnet</label>
-		   <altlabel>Stop Telnet</altlabel>
-		   <font>light32b</font>
-		   <align>center</align>
-		   <textcolor>grey</textcolor>
-		   <focusedcolor>white</focusedcolor>
-		   <texturenofocus>-</texturenofocus>
-		   <onclick lang="python"><![CDATA[ 
-startTelnet()
-]]></onclick>
-<altclick lang="python"><![CDATA[
-stopTelnet()
-]]></altclick>
-		</control-->
 	</controls>
 </window>
