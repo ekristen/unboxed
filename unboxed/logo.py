@@ -26,6 +26,9 @@ def onclick():
 		mc.GetApp().GetLocalConfig().SetValue("logotweak.state", "green")
 		mc.ShowDialogNotification("Boxee Box Logo: Green")
 
+def getlabel():
+	return __label__
+
 def onload():
 	return
 	

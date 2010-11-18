@@ -10,6 +10,9 @@ def onclick():
 	if response:
 		os.system("/sbin/reboot")
 
+def getlabel():
+	return __label__
+
 def onload():
 	return
 

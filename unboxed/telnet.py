@@ -3,11 +3,17 @@ import mc
 
 __id__ = "telnet"
 __label__ = "Enable Telnet"
-__altlabel__ = "Disable Telnet"
 __description__ = "This will enable telnet on your Box, giving you full root access to the filesystem. There is one major caveat, there is no root password. It is advised you only enable telnet when you need to use it, then disable it."
 
+def getlabel():
+	status = mc.GetApp().GetLocalConfig().GetValue("telnettweak.status")
+	if status == "0":
+		return "Enable Telnet"
+	else:
+		return "Disable Telnet"
+
 def onclick():
-	status = check()
+	status = mc.GetApp().GetLocalConfig().GetValue("telnettweak.status")
 	if status == "0":
 		start()
 	else:
@@ -18,7 +24,7 @@ def start():
 	mc.GetApp().GetLocalConfig().SetValue("telnettweak.status", "1")
 	ilist = mc.GetActiveWindow().GetList(101)
 	item = ilist.GetItem(ilist.GetFocusedItem())
-	item.SetLabel(__altlabel__)
+	item.SetLabel("Disable Telnet")
 	mc.ShowDialogNotification("Telnet: Started")
 
 def stop():
@@ -26,29 +32,14 @@ def stop():
 	mc.GetApp().GetLocalConfig().SetValue("telnettweak.status", "0")
 	ilist = mc.GetActiveWindow().GetList(101)
 	item = ilist.GetItem(ilist.GetFocusedItem())
-	item.SetLabel(__label__)
+	item.SetLabel("Enable Telnet")
 	mc.ShowDialogNotification("Telnet: Stopped")
 
-def check():
-	return mc.GetApp().GetLocalConfig().GetValue("telnettweak.status")
-
-def __label__():
-	status = check()
-	if status == "0":
-		return __label__
-	elif status == "1":
-		return __altlabel__
-
 def onload():
-	status = check()
-	if status == "0":
-		ilist = mc.GetActiveWindow().GetList(101)
-		item = ilist.GetItem(ilist.GetFocusedItem())
-		item.SetLabel(__label__)
-	else:
-		ilist = mc.GetActiveWindow().GetList(101)
-		item = ilist.GetItem(ilist.GetFocusedItem())
-		item.SetLabel(__altlabel__)
+	return
+
+def onunload():
+	return
 
 # Init Code Goes Below Here #
 mc.GetApp().GetLocalConfig().SetValue("telnettweak.status", "0")

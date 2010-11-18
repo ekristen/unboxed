@@ -6,9 +6,6 @@ import os
 import re
 import unboxed
 
-print dir(unboxed.__dict__)
-print unboxed.__apps__
-
 # Build our list of Apps
 apps = list()
 for entry in unboxed.__apps__:
@@ -20,7 +17,7 @@ for entry in unboxed.__apps__:
 items = mc.ListItems()
 for app in apps:
 	item = mc.ListItem( mc.ListItem.MEDIA_UNKNOWN )
-	item.SetLabel(app.__label__)
+	item.SetLabel(app.getlabel())
 	item.SetDescription(app.__description__)
 	items.append(item)
 mc.GetActiveWindow().GetList(101).SetItems(items)
