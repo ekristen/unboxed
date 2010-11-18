@@ -21,6 +21,33 @@ for app in apps:
 	item.SetDescription(app.__description__)
 	items.append(item)
 mc.GetActiveWindow().GetList(101).SetItems(items)
+
+
+## Build SYS INFO
+os.system("cat /opt/boxee/VERSION > " + mc.GetTempDir() + "unboxed_version")
+f = open(mc.GetTempDir() + "unboxed_version", "r")
+version = f.read().rstrip("\n")
+f.close()
+
+os.system("uptime > " + mc.GetTempDir() + "unboxed_uptime")
+f = open(mc.GetTempDir() + "unboxed_uptime")
+uptimefull = f.read()
+f.close()
+
+os.system("ifconfig | grep -m 1 inet | tr -s ' ' | cut -f2 -d: | cut -f1 -d' ' > " + mc.GetTempDir() + "unboxed_ip")
+f = open(mc.GetTempDir() + "unboxed_ip", "r")
+ipaddress = f.read().rstrip("\n")
+f.close()
+
+uptime = uptimefull.split(",")[0].split("up")[1]
+load = uptimefull.split("average:")[1]
+
+info = """Boxee Version: %s
+IP Address: %s
+Uptime: %s
+Load: %s
+""" % (version, ipaddress, uptime, load)
+mc.GetActiveWindow().GetLabel(103).SetLabel(info)
 ]]></onload>
 <onunload lang="python"><![CDATA[
 for app in unboxed.__apps__:
