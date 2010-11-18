@@ -1,52 +1,54 @@
 import os
 import mc
-from tweak import *
 
-# Let's define some tweaks
-class TelnetTweak(Tweak):
-	name = "telnet"
-	label = "Enable Telnet"
-	altlabel = "Disable Telnet"
-	description = "This will enable telnet on your Box, giving you full root access to the filesystem. There is one major caveat, there is no root password. It is advised you only enable telnet when you need to use it, then disable it."
+__id__ = "telnet"
+__label__ = "Enable Telnet"
+__altlabel__ = "Disable Telnet"
+__description__ = "This will enable telnet on your Box, giving you full root access to the filesystem. There is one major caveat, there is no root password. It is advised you only enable telnet when you need to use it, then disable it."
 
-	def __init__(self):
-		mc.GetApp().GetLocalConfig().SetValue("telnettweak.status", "0")
+def onclick():
+	status = check()
+	if status == "0":
+		start()
+	else:
+		stop()
 
-	def onload(self):
-		status = self.check()
-		if status == "0":
-			ilist = mc.GetActiveWindow().GetList(101)
-			item = ilist.GetItem(ilist.GetFocusedItem())
-			item.SetLabel("Enable Telnet")
-		else:
-			ilist = mc.GetActiveWindow().GetList(101)
-			item = ilist.GetItem(ilist.GetFocusedItem())
-			item.SetLabel("Disable Telnet")
+def start():
+	os.system("/etc/init.d/telnetd start")
+	mc.GetApp().GetLocalConfig().SetValue("telnettweak.status", "1")
+	ilist = mc.GetActiveWindow().GetList(101)
+	item = ilist.GetItem(ilist.GetFocusedItem())
+	item.SetLabel(__altlabel__)
+	mc.ShowDialogNotification("Telnet: Started")
 
-	def onclick(self):
-		status = self.check()
-		if status == "0":
-			self.start()
-		else:
-			self.stop()
+def stop():
+	os.system("/bin/kill `ps ax | grep -v grep | grep telnetd | awk '{print $1}'`")
+	mc.GetApp().GetLocalConfig().SetValue("telnettweak.status", "0")
+	ilist = mc.GetActiveWindow().GetList(101)
+	item = ilist.GetItem(ilist.GetFocusedItem())
+	item.SetLabel(__label__)
+	mc.ShowDialogNotification("Telnet: Stopped")
 
-	def start(self):
-		os.system("/etc/init.d/telnetd start")
-		mc.GetApp().GetLocalConfig().SetValue("telnettweak.status", "1")
+def check():
+	return mc.GetApp().GetLocalConfig().GetValue("telnettweak.status")
+
+def __label__():
+	status = check()
+	if status == "0":
+		return __label__
+	elif status == "1":
+		return __altlabel__
+
+def onload():
+	status = check()
+	if status == "0":
 		ilist = mc.GetActiveWindow().GetList(101)
 		item = ilist.GetItem(ilist.GetFocusedItem())
-		item.SetLabel("Disable Telnet")
-		mc.ShowDialogNotification("Telnet: Started")
-
-	def stop(self):
-		os.system("/bin/kill `ps ax | grep -v grep | grep telnetd | awk '{print $1}'`")
-		mc.GetApp().GetLocalConfig().SetValue("telnettweak.status", "0")
+		item.SetLabel(__label__)
+	else:
 		ilist = mc.GetActiveWindow().GetList(101)
 		item = ilist.GetItem(ilist.GetFocusedItem())
-		item.SetLabel("Enable Telnet")
-		mc.ShowDialogNotification("Telnet: Stopped")
+		item.SetLabel(__altlabel__)
 
-	def check(self):
-		return mc.GetApp().GetLocalConfig().GetValue("telnettweak.status")
-
-telnet = TelnetTweak()
+# Init Code Goes Below Here #
+mc.GetApp().GetLocalConfig().SetValue("telnettweak.status", "0")

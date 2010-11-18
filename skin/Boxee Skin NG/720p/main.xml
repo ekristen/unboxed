@@ -6,27 +6,28 @@ import os
 import re
 import unboxed
 
-# Build our list of tweaks
-tweaks = list()
-for entry in unboxed.__dict__['__all__']:
-	if re.match("[a-zA-Z]+Tweak", entry):
-		# onload call back for modules
-		unboxed.__dict__[unboxed.__dict__[entry].name].onload()
-		tweaks.append(unboxed.__dict__[entry])
+print dir(unboxed.__dict__)
+print unboxed.__apps__
+
+# Build our list of Apps
+apps = list()
+for entry in unboxed.__apps__:
+	# onload call back for modules
+	unboxed.__dict__[entry].onload()
+	apps.append(unboxed.__dict__[entry])
 
 # Build our list
 items = mc.ListItems()
-for tweak in tweaks:
+for app in apps:
 	item = mc.ListItem( mc.ListItem.MEDIA_UNKNOWN )
-	item.SetLabel(tweak.label)
-	item.SetDescription(tweak.description)
+	item.SetLabel(app.__label__)
+	item.SetDescription(app.__description__)
 	items.append(item)
 mc.GetActiveWindow().GetList(101).SetItems(items)
-
 ]]></onload>
 <onunload lang="python"><![CDATA[
-for tweak in tweaks:
-	unboxed.__dict__[tweak.name].onunload()
+for app in unboxed.__apps__:
+	unboxed.__dict__[app].onunload()
 ]]></onunload>
 	<defaultcontrol always="true">101</defaultcontrol>
 	<allowoverlay>yes</allowoverlay>
@@ -94,7 +95,7 @@ for tweak in tweaks:
 				</control>
 			</focusedlayout>
 			<content type="action">
-				<onclick lang="python"><![CDATA[unboxed.__dict__[tweaks[mc.GetActiveWindow().GetList(101).GetFocusedItem()].name].onclick()]]></onclick>
+				<onclick lang="python"><![CDATA[unboxed.__dict__[apps[mc.GetActiveWindow().GetList(101).GetFocusedItem()].__id__].onclick()]]></onclick>
 			</content>
 		</control>
 
