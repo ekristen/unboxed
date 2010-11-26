@@ -2,6 +2,10 @@
 <window type="window" id="14000">
 <onload lang="python"><![CDATA[
 import mc
+
+mc.ShowDialogOk("UnBoxed", "Hi Everyone! As of November 25, 2010, the latest update (which is required) removes the ability for this app to function. The community is hard at work trying to restore this apps functionality. Please keep checking this project's website for updates.")
+mc.CloseWindow()
+
 import os
 import re
 import unboxed
